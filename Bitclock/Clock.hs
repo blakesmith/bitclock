@@ -12,6 +12,9 @@ data Color = Color { redValue :: Integer
                    , blueValue :: Integer
                    } deriving (Eq, Show)
 
+data Endianness = Big
+                | Little
+
 
 bitValue :: Integer -> Int -> Bool
 bitValue v n = (==) 1 $ (.&.) 1 $ shiftR v n
@@ -25,5 +28,9 @@ applyColor bits = map color bits
            where color True = Color 255 0 0
                  color False = Color 0 0 0
 
+endianness :: Endianness -> [Bool] -> [Bool]
+endianness Big = L.reverse
+endianness Little = id
+
 getBitTime :: IO [Color]
-getBitTime = fmap (applyColor . getTimestampBits) getPOSIXTime
+getBitTime = fmap (applyColor . endianness Big . getTimestampBits) getPOSIXTime
