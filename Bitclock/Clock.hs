@@ -20,7 +20,7 @@ bitValue :: Integer -> Int -> Bool
 bitValue v n = (==) 1 $ (.&.) 1 $ shiftR v n
 
 getTimestampBits :: POSIXTime -> [Bool]
-getTimestampBits pt = L.zipWith bitValue (L.repeat timestamp) [0..64]
+getTimestampBits pt = L.zipWith bitValue (L.repeat timestamp) [0..63]
                  where timestamp = round pt
 
 applyColor :: [Bool] -> [Color]
