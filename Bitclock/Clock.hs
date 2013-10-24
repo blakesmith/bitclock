@@ -22,7 +22,7 @@ type ClockState = MVar [Color]
 newClock :: Int -> IO ClockState
 newClock sampleMs = do
          state <- getBitTime >>= newMVar
-         _ <- forkIO $ forever $ getBitTime >>= swapMVar state >> threadDelay (sampleMs * 1000) >> putStrLn "Clock write"
+         _ <- forkIO $ forever $ getBitTime >>= swapMVar state >> threadDelay (sampleMs * 1000)
          return state
 
 readClock :: ClockState -> IO [Color]

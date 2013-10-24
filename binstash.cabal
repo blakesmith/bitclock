@@ -11,6 +11,7 @@ cabal-version: >= 1.2
 library
   build-depends: base, bytestring, cmdargs, filepath, snap-core, snap-server, time, transformers
   exposed-modules: Bitclock.Clock
+                   Bitclock.Web
   ghc-options: -Wall
 
 executable bitclockd
