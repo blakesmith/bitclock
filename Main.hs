@@ -1,4 +1,5 @@
 import Bitclock.Clock
+import Control.Concurrent
 
 main :: IO ()
-main = fmap show getBitTime >>= putStrLn
+main = newClock >> threadDelay 1000000 >> putStrLn "Started"

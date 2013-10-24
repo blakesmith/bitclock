@@ -1,8 +1,10 @@
 module Bitclock.Clock (
        Color(..),
-       getBitTime
+       newClock
        ) where
 
+import Control.Concurrent
+import Control.Monad
 import qualified Data.List as L
 import Data.Time.Clock.POSIX
 import Data.Bits
@@ -15,6 +17,13 @@ data Color = Color { redValue :: Integer
 data Endianness = Big
                 | Little
 
+type ClockState = MVar [Color]
+
+newClock :: IO (ThreadId, ClockState)
+newClock = do
+         state <- getBitTime >>= newMVar
+         thread <- forkIO $ forever $ getBitTime >>= swapMVar state >> threadDelay 250000 >> putStrLn "Clock write"
+         return (thread, state)
 
 bitValue :: Integer -> Int -> Bool
 bitValue v n = (==) 1 $ (.&.) 1 $ shiftR v n
