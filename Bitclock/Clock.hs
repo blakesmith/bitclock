@@ -1,5 +1,5 @@
 module Bitclock.Clock (
-       Color(..),
+       Color(..), ClockState,
        newClock
        ) where
 
@@ -19,11 +19,11 @@ data Endianness = Big
 
 type ClockState = MVar [Color]
 
-newClock :: IO (ThreadId, ClockState)
-newClock = do
+newClock :: Int -> IO ClockState
+newClock sampleMs = do
          state <- getBitTime >>= newMVar
-         thread <- forkIO $ forever $ getBitTime >>= swapMVar state >> threadDelay 250000 >> putStrLn "Clock write"
-         return (thread, state)
+         _ <- forkIO $ forever $ getBitTime >>= swapMVar state >> threadDelay (sampleMs * 1000) >> putStrLn "Clock write"
+         return state
 
 bitValue :: Integer -> Int -> Bool
 bitValue v n = (==) 1 $ (.&.) 1 $ shiftR v n
