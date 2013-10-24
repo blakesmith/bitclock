@@ -1,5 +1,8 @@
 import Bitclock.Clock
 import Control.Concurrent
 
+wait :: IO ()
+wait = newEmptyMVar >>= takeMVar
+
 main :: IO ()
-main = newClock >> threadDelay 1000000 >> putStrLn "Started"
+main = putStrLn "Starting Clock" >> newClock >> wait
