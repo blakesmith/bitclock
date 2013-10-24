@@ -1,6 +1,6 @@
 module Bitclock.Clock (
        Color(..), ClockState,
-       newClock
+       newClock, readClock
        ) where
 
 import Control.Concurrent
@@ -24,6 +24,9 @@ newClock sampleMs = do
          state <- getBitTime >>= newMVar
          _ <- forkIO $ forever $ getBitTime >>= swapMVar state >> threadDelay (sampleMs * 1000) >> putStrLn "Clock write"
          return state
+
+readClock :: ClockState -> IO [Color]
+readClock = readMVar
 
 bitValue :: Integer -> Int -> Bool
 bitValue v n = (==) 1 $ (.&.) 1 $ shiftR v n

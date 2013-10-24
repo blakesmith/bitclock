@@ -5,8 +5,8 @@ import Control.Concurrent
 wait :: IO ()
 wait = newEmptyMVar >>= takeMVar
 
-readClock :: Int -> ClockState -> IO ()
-readClock delayMs clk = forever $ fmap show (readMVar clk) >>= putStrLn >> threadDelay (delayMs * 1000)
+clockReader :: Int -> ClockState -> IO ()
+clockReader delayMs clk = forever $ fmap show (readClock clk) >>= putStrLn >> threadDelay (delayMs * 1000)
 
 main :: IO ()
-main = putStrLn "Starting Clock" >> newClock 250 >>= readClock 1000 >> wait
+main = putStrLn "Starting Clock" >> newClock 250 >>= clockReader 1000 >> wait
