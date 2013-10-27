@@ -1,0 +1,20 @@
+require 'rubygems'
+require 'supply_drop'
+
+task :home do
+  role :server, "192.168.1.102"
+end
+
+default_run_options[:pty] = true
+set :puppet_parameters, 'manifests/site.pp'
+set :user, "bitclock" # ENV["USER"] || "blake"
+set :use_sudo, true
+
+# Example usage: NAME='test.blakesmith.me' HOSTS=ubuntu@ec2-50-17-112-94.compute-1.amazonaws.com cap rename
+desc "Rename a host"
+task :rename, :role => :server do
+  sudo "hostname #{ENV['NAME']}"
+  run "echo #{ENV['NAME']} > /tmp/hostname"
+  sudo "mv /tmp/hostname /etc/hostname"
+end
+

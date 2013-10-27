@@ -1,0 +1,25 @@
+#!/bin/bash
+#
+# NOTE: If you MUST have a different gemset name, just create a .rvmrc.gemset file in the project root and put the name
+#       of the gemset you want to use in there, like:
+#       % echo "i_am_too_picky" > .rvmrc.gemset
+#       Also, if you must use a different Ruby, create an .rvmrc.local with the ruby version
+# % echo "1.9.3" > .rvmrc.local
+
+command_gemset="infrastructure"
+command_ruby="ruby-1.9.3-p0"
+
+ruby_override_file=".rvmrc.local"
+gemset_override_file=".rvmrc.gemset"
+
+# Use a local gemset if provided
+if [ -f $gemset_override_file ]; then
+  command_gemset=`cat $gemset_override_file`
+fi
+
+if [ -f $ruby_override_file ]; then
+  command_ruby=`cat $ruby_override_file`
+fi
+
+rvm $command_ruby@$command_gemset
+
