@@ -44,5 +44,7 @@ setLeds :: [Color] -> SPI ()
 setLeds colors = do
         fileHandle <- asks stripDevice
         liftIO $ mapM_ (writeColorBuffer fileHandle) buffers
+        liftIO $ writeTerminator fileHandle
   where writeColorBuffer fh buf = (BL.hPut fh buf >> hFlush fh)
+        writeTerminator fh = (BL.hPut fh (encode '\0') >> hFlush fh)
         buffers = map (encode . mkGamma) colors
