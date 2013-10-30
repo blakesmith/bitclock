@@ -10,7 +10,8 @@ cabal-version: >= 1.2
 
 library
   build-depends: base, binary, bytestring, cmdargs, filepath, mtl, snap-core, snap-server, time, transformers
-  exposed-modules: Bitclock.Clock
+  exposed-modules: Bitclock.Args
+                   Bitclock.Clock
                    Bitclock.Strip
                    Bitclock.Web
                    Data.LDP8806

@@ -9,8 +9,8 @@ import Control.Monad.IO.Class
 import Snap.Core
 import Snap.Http.Server
 
-serveWeb :: ClockState -> IO ()
-serveWeb clk = quickHttpServe (routes clk)
+serveWeb :: Config Snap a -> ClockState -> IO ()
+serveWeb conf clk = httpServe conf $ routes clk
 
 routes :: ClockState -> Snap ()
 routes clk = ifTop (root clk)
