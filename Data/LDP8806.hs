@@ -28,7 +28,7 @@ type SPI = ReaderT LEDStrip IO
 
 mkGamma :: Color -> [Gamma]
 mkGamma color = [gamma (greenValue color), gamma (redValue color), gamma (blueValue color)]
-        where gamma i = 0x80 .|. floor (((fromIntegral i / 255.0) ** 2.5) * 127.0 + 0.5)
+        where gamma i = 0x80 .|. floor (((fromIntegral i / 255.0 :: Double) ** 2.5) * 127.0 + 0.5)
 
 mkStrip :: Integer -> String -> IO LEDStrip
 mkStrip i path = fmap (LEDStrip i RGB) $ openBinaryFile path WriteMode
