@@ -15,10 +15,10 @@ data Endianness = Big
 
 type ClockState = MVar [Color]
 
-newClock :: Int -> IO ClockState
-newClock sampleMs = do
-         state <- getBitTime >>= newMVar
-         _ <- forkIO $ forever $ getBitTime >>= swapMVar state >> threadDelay (sampleMs * 1000)
+newClock :: Int -> Int -> IO ClockState
+newClock sampleMs ledCount = do
+         state <- getBitTime ledCount>>= newMVar
+         _ <- forkIO $ forever $ getBitTime ledCount >>= swapMVar state >> threadDelay (sampleMs * 1000)
          return state
 
 readClock :: ClockState -> IO [Color]
@@ -27,8 +27,8 @@ readClock = readMVar
 bitValue :: Integer -> Int -> Bool
 bitValue v n = (==) 1 $ (.&.) 1 $ shiftR v n
 
-getTimestampBits :: POSIXTime -> [Bool]
-getTimestampBits pt = L.zipWith bitValue (L.repeat timestamp) [0..63]
+getTimestampBits :: Int -> POSIXTime -> [Bool]
+getTimestampBits ledCount pt = L.zipWith bitValue (L.repeat timestamp) [0..ledCount-1]
                  where timestamp = round pt
 
 applyColor :: [Bool] -> [Color]
@@ -40,5 +40,5 @@ endianness :: Endianness -> [Bool] -> [Bool]
 endianness Big = L.reverse
 endianness Little = id
 
-getBitTime :: IO [Color]
-getBitTime = fmap (applyColor . endianness Big . getTimestampBits) getPOSIXTime
+getBitTime :: Int -> IO [Color]
+getBitTime ledCount = fmap (applyColor . endianness Big . getTimestampBits ledCount) getPOSIXTime
