@@ -7,7 +7,7 @@ import qualified Data.ByteString.Lazy as BL
 import System.IO
 
 type LED = Integer
-type Gamma = Integer
+type Gamma = Word8
 
 data ChannelOrder = RGB
                   | GRB
@@ -27,9 +27,8 @@ data LEDStrip = LEDStrip { stripNumLeds :: Integer
 type SPI = ReaderT LEDStrip IO
 
 mkGamma :: Color -> [Gamma]
-mkGamma color = [gamma (redValue color), gamma (greenValue color), gamma (blueValue color)]
+mkGamma color = [gamma (greenValue color), gamma (redValue color), gamma (blueValue color)]
         where gamma i = 0x80 .|. floor (((fromIntegral i / 255.0) ** 2.5) * 127.0 + 0.5)
-
 
 mkStrip :: Integer -> String -> IO LEDStrip
 mkStrip i path = fmap (LEDStrip i RGB) $ openBinaryFile path WriteMode
@@ -47,4 +46,5 @@ setLeds colors = do
         liftIO $ writeTerminator fileHandle
   where writeColorBuffer fh buf = (BL.hPut fh buf >> hFlush fh)
         writeTerminator fh = (BL.hPut fh (encode '\0') >> hFlush fh)
-        buffers = map (encode . mkGamma) colors
+        buffers = map (gammaToBS . mkGamma) colors
+        gammaToBS = BL.concat . map encode
