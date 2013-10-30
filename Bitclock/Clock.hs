@@ -17,7 +17,7 @@ type ClockState = MVar [Color]
 
 newClock :: Int -> Int -> IO ClockState
 newClock sampleMs ledCount = do
-         state <- getBitTime ledCount>>= newMVar
+         state <- getBitTime ledCount >>= newMVar
          _ <- forkIO $ forever $ getBitTime ledCount >>= swapMVar state >> threadDelay (sampleMs * 1000)
          return state
 

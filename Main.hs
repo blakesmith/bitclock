@@ -8,4 +8,4 @@ main = do
      args <- getArgs
      webArgs <- getSnapConfig args
      putStrLn "Starting Clock"
-     newClock 250 64 >>= runStrip 500 64 "/tmp/clock_test" >>= serveWeb webArgs
+     newClock 250 (ledCount args) >>= runStrip 500 (ledCount args) (devicePath args) >>= serveWeb webArgs
