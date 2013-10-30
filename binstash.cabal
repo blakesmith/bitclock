@@ -9,7 +9,7 @@ build-type: Simple
 cabal-version: >= 1.2
 
 library
-  build-depends: base, bytestring, cmdargs, filepath, mtl, snap-core, snap-server, time, transformers
+  build-depends: base, binary, bytestring, cmdargs, filepath, mtl, snap-core, snap-server, time, transformers
   exposed-modules: Bitclock.Clock
                    Bitclock.Web
                    Data.LDP8806

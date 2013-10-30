@@ -8,11 +8,7 @@ import Control.Monad
 import qualified Data.List as L
 import Data.Time.Clock.POSIX
 import Data.Bits
-
-data Color = Color { redValue :: Integer
-                   , greenValue :: Integer
-                   , blueValue :: Integer
-                   } deriving (Eq, Show)
+import Data.LDP8806 (Color(..))
 
 data Endianness = Big
                 | Little
