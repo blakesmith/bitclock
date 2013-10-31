@@ -3,6 +3,7 @@ Exec {
 }
 
 node default {
+  include system
   include miscpackages
   include networking
   include bitclock
