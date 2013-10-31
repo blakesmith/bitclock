@@ -31,7 +31,7 @@ mkGamma color = [gamma (greenValue color), gamma (redValue color), gamma (blueVa
         where gamma i = 0x80 .|. floor (((fromIntegral i / 255.0 :: Double) ** 2.5) * 127.0 + 0.5)
 
 mkStrip :: Int -> String -> IO LEDStrip
-mkStrip i path = fmap (LEDStrip i RGB) $ openBinaryFile path WriteMode
+mkStrip i path = fmap (LEDStrip i RGB) $ openBinaryFile path AppendMode
 
 runSPI :: SPI a -> LEDStrip -> IO a
 runSPI spi strip = do
