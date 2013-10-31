@@ -1,11 +1,13 @@
+import Control.Concurrent
 import Bitclock.Args
 import Bitclock.Clock
 import Bitclock.Strip
-import Bitclock.Web
+
+block :: IO ()
+block = newEmptyMVar >>= takeMVar
 
 main :: IO ()
 main = do
      args <- getArgs
-     webArgs <- getSnapConfig args
      putStrLn "Starting Clock"
-     newClock 250 (ledCount args) >>= runStrip 500 (ledCount args) (devicePath args) >>= serveWeb webArgs
+     newClock 250 (ledCount args) >>= runStrip 500 (ledCount args) (devicePath args) >> block

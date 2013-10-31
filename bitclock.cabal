@@ -13,7 +13,6 @@ library
   exposed-modules: Bitclock.Args
                    Bitclock.Clock
                    Bitclock.Strip
-                   Bitclock.Web
                    Data.LDP8806
   ghc-options: -Wall
 
