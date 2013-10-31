@@ -9,7 +9,7 @@ build-type: Simple
 cabal-version: >= 1.2
 
 library
-  build-depends: base, binary, bytestring, cmdargs, filepath, mtl, time, transformers
+  build-depends: base, binary, bytestring, filepath, mtl, time, transformers
   exposed-modules: Bitclock.Args
                    Bitclock.Clock
                    Bitclock.Strip
