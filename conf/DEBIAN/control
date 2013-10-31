@@ -1,5 +1,5 @@
 Architecture: armhf
-Package: bitclockd
+Package: bitclock
 Version: 0.0.1
 Maintainer: blakesmith0@gmail.com
 Description: LED BitClock for LPD8806 on a Raspberry Pi
