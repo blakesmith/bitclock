@@ -21,8 +21,8 @@
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC="Bitclock wall clock"
 NAME=bitclock
-DAEMON="/usr/local/bin/$(NAME)d"
-DAEMON_ARGS="-f /dev/spidev0.0 -l 64"
+DAEMON="/usr/local/bin/bitclockd"
+DAEMON_ARGS="-d /dev/spidev0.0 -l 64"
 EXTRA_ARGS="-c bitclock --background --make-pidfile"
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME

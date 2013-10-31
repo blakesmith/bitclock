@@ -5,4 +5,5 @@ Exec {
 node default {
   include miscpackages
   include networking
+  include bitclock
 }
