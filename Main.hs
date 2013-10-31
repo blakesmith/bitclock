@@ -1,10 +1,11 @@
 import Control.Concurrent
+import Control.Monad
 import Bitclock.Args
 import Bitclock.Clock
 import Bitclock.Strip
 
 block :: IO ()
-block = newEmptyMVar >>= takeMVar
+block = forever $ threadDelay (10000 * 1000)
 
 main :: IO ()
 main = do
