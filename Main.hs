@@ -9,6 +9,6 @@ block = forever $ threadDelay (10000 * 1000)
 
 main :: IO ()
 main = do
-     args <- getArgs
+     args <- getArguments
      putStrLn "Starting Clock"
      newClock 250 (ledCount args) >>= runStrip 500 (ledCount args) (devicePath args) >> block
