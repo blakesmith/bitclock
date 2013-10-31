@@ -1,4 +1,4 @@
-Architecture: armel
+Architecture: armhf
 Package: bitclockd
 Version: 0.0.1
 Maintainer: blakesmith0@gmail.com
