@@ -5,6 +5,11 @@ task :home do
   role :server, "192.168.1.102"
 end
 
+task :production do
+  ssh_options[:port] = 1585
+  role :server, "50.179.19.37"
+end
+
 default_run_options[:pty] = true
 set :puppet_parameters, 'manifests/site.pp'
 set :user, "bitclock" # ENV["USER"] || "blake"

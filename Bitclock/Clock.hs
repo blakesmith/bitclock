@@ -1,5 +1,5 @@
 module Bitclock.Clock (
-       Color(..), ClockState,
+       Color(..), Endianness(..), ClockState,
        newClock, readClock
        ) where
 
@@ -11,14 +11,14 @@ import Data.Bits
 import Data.LDP8806 (Color(..))
 
 data Endianness = Big
-                | Little
+                | Little deriving (Show)
 
 type ClockState = MVar [Color]
 
-newClock :: Int -> Int -> IO ClockState
-newClock sampleMs ledCount = do
-         state <- getBitTime ledCount >>= newMVar
-         _ <- forkIO $ forever $ getBitTime ledCount >>= swapMVar state >> threadDelay (sampleMs * 1000)
+newClock :: Int -> Int -> Endianness -> IO ClockState
+newClock sampleMs ledCount end = do
+         state <- getBitTime ledCount end >>= newMVar
+         _ <- forkIO $ forever $ getBitTime ledCount end >>= swapMVar state >> threadDelay (sampleMs * 1000)
          return state
 
 readClock :: ClockState -> IO [Color]
@@ -40,5 +40,5 @@ endianness :: Endianness -> [Bool] -> [Bool]
 endianness Big = L.reverse
 endianness Little = id
 
-getBitTime :: Int -> IO [Color]
-getBitTime ledCount = fmap (applyColor . endianness Big . getTimestampBits ledCount) getPOSIXTime
+getBitTime :: Int -> Endianness -> IO [Color]
+getBitTime ledCount end = fmap (applyColor . endianness end . getTimestampBits ledCount) getPOSIXTime
