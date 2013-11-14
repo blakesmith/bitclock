@@ -10,6 +10,10 @@ task :production do
   role :server, "50.179.19.37"
 end
 
+task :office do
+  role :server, "10.1.10.36"
+end  
+
 default_run_options[:pty] = true
 set :puppet_parameters, 'manifests/site.pp'
 set :user, "bitclock" # ENV["USER"] || "blake"
