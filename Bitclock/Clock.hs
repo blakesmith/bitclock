@@ -27,18 +27,19 @@ readClock = readMVar
 bitValue :: Integer -> Int -> Bool
 bitValue v n = (==) 1 $ (.&.) 1 $ shiftR v n
 
-getTimestampBits :: Int -> POSIXTime -> [Bool]
-getTimestampBits ledCount pt = L.zipWith bitValue (L.repeat timestamp) [0..ledCount-1]
-                 where timestamp = round pt
+colorByTimeOfDay :: POSIXTime -> Color
+colorByTimeOfDay t = Color 255 127 0
 
-applyColor :: [Bool] -> [Color]
-applyColor bits = map color bits
-           where color True = Color 255 0 0
-                 color False = Color 0 0 0
+getTimestampColors :: Int -> POSIXTime -> [Color]
+getTimestampColors ledCount pt = map color bits
+                 where bits = L.zipWith bitValue (L.repeat timestamp) [0..ledCount-1]
+                       timestamp = round pt
+                       color True = colorByTimeOfDay pt
+                       color False = Color 0 0 0
 
-endianness :: Endianness -> [Bool] -> [Bool]
+endianness :: Endianness -> [a] -> [a]
 endianness Big = L.reverse
 endianness Little = id
 
 getBitTime :: Int -> Endianness -> IO [Color]
-getBitTime ledCount end = fmap (applyColor . endianness end . getTimestampBits ledCount) getPOSIXTime
+getBitTime ledCount end = fmap (endianness end . getTimestampColors ledCount) getPOSIXTime
