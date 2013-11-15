@@ -5,11 +5,6 @@ task :home do
   role :server, "192.168.1.102"
 end
 
-task :production do
-  ssh_options[:port] = 1585
-  role :server, "50.179.19.37"
-end
-
 task :office do
   role :server, "10.1.10.36"
 end  
