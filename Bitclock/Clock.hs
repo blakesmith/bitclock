@@ -32,7 +32,7 @@ period :: (Fractional b) => Integer -> Integer -> b
 period n d = fromIntegral n / fromIntegral d
 
 periodLength :: Integer
-periodLength = 30
+periodLength = round posixDayLength
 
 posixSecondsForToday :: POSIXTime -> Integer
 posixSecondsForToday p = flip mod periodLength . round $ p
