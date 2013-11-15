@@ -1,3 +1,4 @@
+{-# LANGUAGE ScopedTypeVariables #-}
 module Bitclock.Clock (
        Color(..), Endianness(..), ClockState,
        newClock, readClock
@@ -27,22 +28,30 @@ readClock = readMVar
 bitValue :: Integer -> Int -> Bool
 bitValue v n = (==) 1 $ (.&.) 1 $ shiftR v n
 
+period :: (Fractional b) => Integer -> Integer -> b
+period n d = fromIntegral n / fromIntegral d
+
+periodLength :: Integer
+periodLength = 30
+
+posixSecondsForToday :: POSIXTime -> Integer
+posixSecondsForToday p = flip mod periodLength . round $ p
+
 colorByTimeOfDay :: Color -> Color -> POSIXTime -> Color
 colorByTimeOfDay c1 c2 t = Color r g b
-                 where r = round ((fromIntegral $ redValue c1) * p + (fromIntegral $ redValue c2) * (1 - p))
-                       g = round ((fromIntegral $ greenValue c1) * p + (fromIntegral $ greenValue c2) * (1 - p))
-                       b = round ((fromIntegral $ blueValue c1) * p + (fromIntegral $ blueValue c2) * (1 - p))
-                       p = fromIntegral curSec / (fromIntegral $ round posixDayLength)
-                       curSec = (flip mod (round 20) . fromIntegral . round) t
+                 where r :: Integer = floor $ (fromIntegral $ redValue c1) * p + (fromIntegral $ redValue c2) * (1.0 - p)
+                       g :: Integer = floor $ (fromIntegral $ greenValue c1) * p + (fromIntegral $ greenValue c2) * (1.0 - p)
+                       b :: Integer = floor $ (fromIntegral $ blueValue c1) * p + (fromIntegral $ blueValue c2) * (1.0 - p)
+                       p :: Double = period (posixSecondsForToday t) periodLength
 
 getTimestampColors :: Int -> POSIXTime -> [Color]
 getTimestampColors ledCount pt = map color bits
                  where bits = L.zipWith bitValue (L.repeat timestamp) [0..ledCount-1]
                        timestamp = round pt
-                       color True = colorByTimeOfDay startTime endTime pt
+                       color True = colorByTimeOfDay startColor endColor pt
                        color False = Color 0 0 0
-                       startTime = Color 255 127 0
-                       endTime = Color 0 0 255
+                       startColor = Color 255 127 0
+                       endColor = Color 0 0 255
 
 endianness :: Endianness -> [a] -> [a]
 endianness Big = L.reverse
