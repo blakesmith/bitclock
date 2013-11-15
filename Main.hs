@@ -1,3 +1,4 @@
+
 import Control.Concurrent
 import Control.Monad
 import Bitclock.Args
@@ -11,4 +12,4 @@ main :: IO ()
 main = do
      args <- getArguments
      putStrLn "Starting Clock"
-     newClock 250 (ledCount args) (endianness args) >>= runStrip 500 (ledCount args) (devicePath args) >> block
+     newClock 100 (ledCount args) (endianness args) >>= runStrip 100 (ledCount args) (devicePath args) >> block
