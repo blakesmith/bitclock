@@ -1,4 +1,3 @@
-
 import Control.Concurrent
 import Control.Monad
 import Bitclock.Args
