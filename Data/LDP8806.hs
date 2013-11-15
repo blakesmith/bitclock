@@ -45,6 +45,6 @@ setLeds colors = do
         liftIO $ mapM_ (writeColorBuffer fileHandle) buffers
         liftIO $ writeTerminator fileHandle
   where writeColorBuffer fh buf = (BL.hPut fh buf >> hFlush fh)
-        writeTerminator fh = (BL.hPut fh (encode '\0') >> hFlush fh)
+        writeTerminator fh = (BL.hPut fh (encode "\0\0") >> hFlush fh)
         buffers = map (gammaToBS . mkGamma) colors
         gammaToBS = BL.concat . map encode
