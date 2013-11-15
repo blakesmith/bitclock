@@ -39,9 +39,9 @@ posixSecondsForToday p = flip mod periodLength . round $ p
 
 colorByTimeOfDay :: Color -> Color -> POSIXTime -> Color
 colorByTimeOfDay c1 c2 t = Color r g b
-                 where r :: Integer = floor $ (fromIntegral $ redValue c1) * p + (fromIntegral $ redValue c2) * (1.0 - p)
-                       g :: Integer = floor $ (fromIntegral $ greenValue c1) * p + (fromIntegral $ greenValue c2) * (1.0 - p)
-                       b :: Integer = floor $ (fromIntegral $ blueValue c1) * p + (fromIntegral $ blueValue c2) * (1.0 - p)
+                 where r :: Integer = floor $ (fromIntegral $ redValue c2) * p + (fromIntegral $ redValue c1) * (1.0 - p)
+                       g :: Integer = floor $ (fromIntegral $ greenValue c2) * p + (fromIntegral $ greenValue c1) * (1.0 - p)
+                       b :: Integer = floor $ (fromIntegral $ blueValue c2) * p + (fromIntegral $ blueValue c1) * (1.0 - p)
                        p :: Double = period (posixSecondsForToday t) periodLength
 
 getTimestampColors :: Int -> POSIXTime -> [Color]
