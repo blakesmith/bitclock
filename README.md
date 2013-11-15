@@ -5,7 +5,7 @@
 This clock is hanging on the wall of clocks at the TempoDB office in
 Chicago. The clock represents a 64-bit UNIX timestamp with 64 LEDs,
 with the least significant bit on the right hand side. The LED color
-slowly changes from RGB [255, 127, 0] (Orange) to [0, 0, 255] (Blue)
+slowly changes from RGB {255, 127, 0} (Orange) to {0, 0, 255} (Blue)
 throughout the day, starting at midnight UTC.
 
 The LED strip is controlled via a small daemon written in haskell that
