@@ -50,8 +50,8 @@ getTimestampColors ledCount pt = map color bits
                        timestamp = round pt
                        color True = colorByTimeOfDay startColor endColor pt
                        color False = Color 0 0 0
-                       startColor = Color 255 127 0
-                       endColor = Color 0 0 255
+                       startColor = Color 255 127 0 -- Orange
+                       endColor = Color 0 0 255 -- Blue
 
 endianness :: Endianness -> [a] -> [a]
 endianness Big = L.reverse
