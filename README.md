@@ -1,6 +1,6 @@
 # Bitclock
 
-![Bitclock](http://github.com/blakesmith/bitclock/img/animated.gif)
+![Bitclock](https://raw.github.com/blakesmith/bitclock/master/img/animated.gif)
 
 This clock is hanging on the wall of clocks at the TempoDB office in
 Chicago. The clock represents a 64-bit UNIX timestamp with 64 LEDs,
